@@ -1,5 +1,5 @@
 "use client";
-import {motion, useScroll, useTransform} from "framer-motion";
+import {motion, useScroll, useTransform, MotionValue} from "framer-motion";
 import {useRef, useState, useEffect} from "react";
 import {cn} from "@/components/libs/utils";
 import Image from "next/image";
@@ -166,7 +166,11 @@ export const FriendshipTimeline = () => {
   );
 };
 
-const TracingBeam = ({scrollProgress}: {scrollProgress: any}) => {
+const TracingBeam = ({
+  scrollProgress,
+}: {
+  scrollProgress: MotionValue<number>;
+}) => {
   return (
     <div className="absolute left-1/2 top-0 bottom-0 w-1 transform -translate-x-1/2 z-0">
       {/* Static beam line - full height */}
@@ -204,7 +208,7 @@ const TimelineCard = ({
 }: {
   item: TimelineItem;
   index: number;
-  scrollProgress: any;
+  scrollProgress: MotionValue<number>;
   totalCards: number;
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);

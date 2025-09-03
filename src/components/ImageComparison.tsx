@@ -2,6 +2,7 @@
 import React, {useState, useEffect} from "react";
 import {DotPattern} from "@/components/ui/dot-pattern";
 import {cn} from "@/components/libs/utils";
+import Image from "next/image";
 
 const ImageComparison = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -75,9 +76,11 @@ const ImageComparison = () => {
               onMouseLeave={() => setIsAutoSliding(true)}
             >
               <div className="aspect-[1/1] bg-gray-200 relative">
-                <img
+                <Image
                   src={images[currentImageIndex].src}
                   alt={images[currentImageIndex].title}
+                  width={400}
+                  height={400}
                   className="w-full h-full object-cover transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -179,14 +182,15 @@ const ImageComparison = () => {
                 <p className="text-lg md:text-lg text-gray-200 leading-relaxed">
                   To be with you is the most happiest moments of my life.. I
                   neither get worries nor overthink whenever you are around...
-                  That's how pure and happy soul you are. To me, you’re exactly
-                  what a perfect woman should look like—and so much more.
+                  That&apos;s how pure and happy soul you are. To me,
+                  you&apos;re exactly what a perfect woman should look like—and
+                  so much more.
                 </p>
                 <p className="text-lg md:text-lg text-gray-200 leading-relaxed">
-                  As Zakir Khan once said: "Tum husn pari, tum jaane-jahaan, tum
-                  sabse haseen, tum sabse jawaan... saundarya, saabon Megha...
-                  not Nirma. And honestly, even that doesn’t do justice to how
-                  amazing you truly are
+                  As Zakir Khan once said: &quot;Tum husn pari, tum
+                  jaane-jahaan, tum sabse haseen, tum sabse jawaan... saundarya,
+                  saabon Megha... not Nirma. And honestly, even that
+                  doesn&apos;t do justice to how amazing you truly are
                 </p>
               </div>
               {/* Decorative Elements */}

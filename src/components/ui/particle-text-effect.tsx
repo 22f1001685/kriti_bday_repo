@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useCallback} from "react";
 
 interface Vector2D {
   x: number;
@@ -210,120 +210,123 @@ export function ParticleTextEffect({
     };
   };
 
-  const nextWord = (word: string, canvas: HTMLCanvasElement) => {
-    // Create off-screen canvas for text rendering
-    const offscreenCanvas = document.createElement("canvas");
-    offscreenCanvas.width = canvas.width;
-    offscreenCanvas.height = canvas.height;
-    const offscreenCtx = offscreenCanvas.getContext("2d")!;
+  const nextWord = useCallback(
+    (word: string, canvas: HTMLCanvasElement) => {
+      // Create off-screen canvas for text rendering
+      const offscreenCanvas = document.createElement("canvas");
+      offscreenCanvas.width = canvas.width;
+      offscreenCanvas.height = canvas.height;
+      const offscreenCtx = offscreenCanvas.getContext("2d")!;
 
-    // Draw text
-    offscreenCtx.fillStyle = "white";
-    offscreenCtx.font = `bold ${Math.min(width / 8, 80)}px Arial`;
-    offscreenCtx.textAlign = "center";
-    offscreenCtx.textBaseline = "middle";
-    offscreenCtx.fillText(word, canvas.width / 2, canvas.height / 2);
+      // Draw text
+      offscreenCtx.fillStyle = "white";
+      offscreenCtx.font = `bold ${Math.min(width / 8, 80)}px Arial`;
+      offscreenCtx.textAlign = "center";
+      offscreenCtx.textBaseline = "middle";
+      offscreenCtx.fillText(word, canvas.width / 2, canvas.height / 2);
 
-    const imageData = offscreenCtx.getImageData(
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-    const pixels = imageData.data;
+      const imageData = offscreenCtx.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+      const pixels = imageData.data;
 
-    // Generate new color - birthday theme colors
-    const birthdayColors = [
-      {r: 255, g: 105, b: 180}, // Hot pink
-      {r: 255, g: 215, b: 0}, // Gold
-      {r: 138, g: 43, b: 226}, // Blue violet
-      {r: 255, g: 20, b: 147}, // Deep pink
-      {r: 0, g: 191, b: 255}, // Deep sky blue
-    ];
-    const newColor =
-      birthdayColors[Math.floor(Math.random() * birthdayColors.length)];
-
-    const particles = particlesRef.current;
-    let particleIndex = 0;
-
-    // Collect coordinates
-    const coordsIndexes: number[] = [];
-    for (let i = 0; i < pixels.length; i += pixelSteps * 4) {
-      coordsIndexes.push(i);
-    }
-
-    // Shuffle coordinates for fluid motion
-    for (let i = coordsIndexes.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [coordsIndexes[i], coordsIndexes[j]] = [
-        coordsIndexes[j],
-        coordsIndexes[i],
+      // Generate new color - birthday theme colors
+      const birthdayColors = [
+        {r: 255, g: 105, b: 180}, // Hot pink
+        {r: 255, g: 215, b: 0}, // Gold
+        {r: 138, g: 43, b: 226}, // Blue violet
+        {r: 255, g: 20, b: 147}, // Deep pink
+        {r: 0, g: 191, b: 255}, // Deep sky blue
       ];
-    }
+      const newColor =
+        birthdayColors[Math.floor(Math.random() * birthdayColors.length)];
 
-    for (const coordIndex of coordsIndexes) {
-      const pixelIndex = coordIndex;
-      const alpha = pixels[pixelIndex + 3];
+      const particles = particlesRef.current;
+      let particleIndex = 0;
 
-      if (alpha > 0) {
-        const x = (pixelIndex / 4) % canvas.width;
-        const y = Math.floor(pixelIndex / 4 / canvas.width);
-
-        let particle: Particle;
-
-        if (particleIndex < particles.length) {
-          particle = particles[particleIndex];
-          particle.isKilled = false;
-          particleIndex++;
-        } else {
-          particle = new Particle();
-
-          const randomPos = generateRandomPos(
-            canvas.width / 2,
-            canvas.height / 2,
-            (canvas.width + canvas.height) / 2
-          );
-          particle.pos.x = randomPos.x;
-          particle.pos.y = randomPos.y;
-
-          particle.maxSpeed = Math.random() * 4 + 2;
-          particle.maxForce = particle.maxSpeed * 0.05;
-          particle.particleSize = Math.random() * 4 + 4;
-          particle.colorBlendRate = Math.random() * 0.0275 + 0.0025;
-
-          particles.push(particle);
-        }
-
-        // Set color transition
-        particle.startColor = {
-          r:
-            particle.startColor.r +
-            (particle.targetColor.r - particle.startColor.r) *
-              particle.colorWeight,
-          g:
-            particle.startColor.g +
-            (particle.targetColor.g - particle.startColor.g) *
-              particle.colorWeight,
-          b:
-            particle.startColor.b +
-            (particle.targetColor.b - particle.startColor.b) *
-              particle.colorWeight,
-        };
-        particle.targetColor = newColor;
-        particle.colorWeight = 0;
-
-        particle.target.x = x;
-        particle.target.y = y;
+      // Collect coordinates
+      const coordsIndexes: number[] = [];
+      for (let i = 0; i < pixels.length; i += pixelSteps * 4) {
+        coordsIndexes.push(i);
       }
-    }
 
-    // Kill remaining particles
-    for (let i = particleIndex; i < particles.length; i++) {
-      particles[i].kill(canvas.width, canvas.height);
-    }
-  };
+      // Shuffle coordinates for fluid motion
+      for (let i = coordsIndexes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [coordsIndexes[i], coordsIndexes[j]] = [
+          coordsIndexes[j],
+          coordsIndexes[i],
+        ];
+      }
 
-  const animate = () => {
+      for (const coordIndex of coordsIndexes) {
+        const pixelIndex = coordIndex;
+        const alpha = pixels[pixelIndex + 3];
+
+        if (alpha > 0) {
+          const x = (pixelIndex / 4) % canvas.width;
+          const y = Math.floor(pixelIndex / 4 / canvas.width);
+
+          let particle: Particle;
+
+          if (particleIndex < particles.length) {
+            particle = particles[particleIndex];
+            particle.isKilled = false;
+            particleIndex++;
+          } else {
+            particle = new Particle();
+
+            const randomPos = generateRandomPos(
+              canvas.width / 2,
+              canvas.height / 2,
+              (canvas.width + canvas.height) / 2
+            );
+            particle.pos.x = randomPos.x;
+            particle.pos.y = randomPos.y;
+
+            particle.maxSpeed = Math.random() * 4 + 2;
+            particle.maxForce = particle.maxSpeed * 0.05;
+            particle.particleSize = Math.random() * 4 + 4;
+            particle.colorBlendRate = Math.random() * 0.0275 + 0.0025;
+
+            particles.push(particle);
+          }
+
+          // Set color transition
+          particle.startColor = {
+            r:
+              particle.startColor.r +
+              (particle.targetColor.r - particle.startColor.r) *
+                particle.colorWeight,
+            g:
+              particle.startColor.g +
+              (particle.targetColor.g - particle.startColor.g) *
+                particle.colorWeight,
+            b:
+              particle.startColor.b +
+              (particle.targetColor.b - particle.startColor.b) *
+                particle.colorWeight,
+          };
+          particle.targetColor = newColor;
+          particle.colorWeight = 0;
+
+          particle.target.x = x;
+          particle.target.y = y;
+        }
+      }
+
+      // Kill remaining particles
+      for (let i = particleIndex; i < particles.length; i++) {
+        particles[i].kill(canvas.width, canvas.height);
+      }
+    },
+    [particlesRef]
+  );
+
+  const animate = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -375,7 +378,7 @@ export function ParticleTextEffect({
     }
 
     animationRef.current = requestAnimationFrame(animate);
-  };
+  }, [particlesRef]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -428,7 +431,7 @@ export function ParticleTextEffect({
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("contextmenu", handleContextMenu);
     };
-  }, [words, width, height]);
+  }, [words, width, height, animate, nextWord]);
 
   return (
     <div className={`flex flex-col items-center justify-center ${className}`}>

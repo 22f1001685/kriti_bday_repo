@@ -2,15 +2,15 @@
 import React, {useState, useEffect} from "react";
 import {Dancing_Script} from "next/font/google";
 import Confetti from "react-confetti";
-import {motion, AnimatePresence} from "framer-motion";
+import {motion} from "framer-motion";
 import {useRouter} from "next/navigation";
+import Image from "next/image";
 
 const dancingScript = Dancing_Script({subsets: ["latin"], weight: "400"});
 
 const Hero = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [clickCount, setClickCount] = useState(0);
-  const [secretSequence, setSecretSequence] = useState<string[]>([]);
   const [windowDimensions, setWindowDimensions] = useState({
     width: 0,
     height: 0,
@@ -42,44 +42,6 @@ const Hero = () => {
       clearTimeout(timer);
     };
   }, []);
-
-  // Secret method 1: Konami Code (Up, Up, Down, Down, Left, Right, Left, Right, B, A)
-  useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      const key = event.key;
-      const konamiCode = [
-        "ArrowUp",
-        "ArrowUp",
-        "ArrowDown",
-        "ArrowDown",
-        "ArrowLeft",
-        "ArrowRight",
-        "ArrowLeft",
-        "ArrowRight",
-        "b",
-        "a",
-      ];
-
-      setSecretSequence((prev) => {
-        const newSequence = [...prev, key].slice(-10); // Keep only last 10 keys
-
-        if (
-          newSequence.length === konamiCode.length &&
-          newSequence.every(
-            (k, i) => k.toLowerCase() === konamiCode[i].toLowerCase()
-          )
-        ) {
-          router.push("/letter");
-          return [];
-        }
-
-        return newSequence;
-      });
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [router]);
 
   // Secret method 2: Click on the letter "A" in MEGHA 7 times
   const handleSecretLetterClick = (e: React.MouseEvent) => {
@@ -162,9 +124,11 @@ const Hero = () => {
       <div className="relative z-10 flex min-h-screen">
         {/* Character Image Overlay - Hidden on mobile, visible on larger screens */}
         <div className="hidden md:block absolute left-2 top-1/3 sm:left-4 sm:top-1/2 md:left-6 md:top-1/2 lg:left-0 lg:top-1/2 transform -translate-y-1/2 z-20">
-          <img
-            src="./megha2.svg"
+          <Image
+            src="/megha2.svg"
             alt="Character"
+            width={200}
+            height={200}
             className="w-32 h-auto sm:w-40 md:w-48 lg:w-auto lg:h-auto"
           />
         </div>
