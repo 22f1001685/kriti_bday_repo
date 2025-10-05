@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Megha Birthday",
-  description: "Created by Akarsh Gupta",
+  title: "Kriti Birthday ",
+  description: "Created by Rishav Chandra",
 };
 
 export default function RootLayout({

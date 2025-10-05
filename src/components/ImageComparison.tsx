@@ -10,13 +10,13 @@ const ImageComparison = () => {
 
   const images = [
     {
-      src: "/baby_megha.webp",
+      src: "/past.webp",
       title: "Your Beautiful Past",
       subtitle: "Every moment was precious",
       period: "Then",
     },
     {
-      src: "/now.webp",
+      src: "/current.webp",
       title: "Your Radiant Present",
       subtitle: "Glowing more than ever",
       period: "Now",
@@ -75,13 +75,15 @@ const ImageComparison = () => {
               onMouseEnter={() => setIsAutoSliding(false)}
               onMouseLeave={() => setIsAutoSliding(true)}
             >
-              <div className="aspect-[1/1] bg-gray-200 relative">
+              <div className="aspect-[4/5] bg-gray-200 relative overflow-hidden">
                 <Image
                   src={images[currentImageIndex].src}
                   alt={images[currentImageIndex].title}
-                  width={400}
-                  height={400}
-                  className="w-full h-full object-cover transition-all duration-500"
+                  fill
+                  className="object-cover transition-all duration-500"
+                  priority={currentImageIndex === 0}
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
@@ -173,25 +175,39 @@ const ImageComparison = () => {
               </h3>
               <div className="space-y-6">
                 <p className="text-lg md:text-lg text-gray-200 leading-relaxed">
-                  Just look at yourself, yesterday you used to be a little
-                  crawling baby who now has grown up to be a beautiful and the
-                  strongest girl. Your eyes, your smile, your nature and most
-                  importantly YOUR HEART, everything is just perfect and
-                  beautiful.
+                  Just look at yourself, yesterday you used to be a little girl
+                  who now has grown up to be a beautiful and the strongest girl.
+                  Your eyes, your smile, your nature and most importantly 
+                  YOUR HEART, everything is just perfect and beautiful.
                 </p>
                 <p className="text-lg md:text-lg text-gray-200 leading-relaxed">
                   To be with you is the most happiest moments of my life.. I
-                  neither get worries nor overthink whenever you are around...
+                  don&apos;t have to worry whenever you are around...
                   That&apos;s how pure and happy soul you are. To me,
                   you&apos;re exactly what a perfect woman should look like—and
-                  so much more.
+                  so much more. And the way you have grown over the years is
+                  truly inspiring and admirable. I admire you for that. I really do.
                 </p>
-                <p className="text-lg md:text-lg text-gray-200 leading-relaxed">
-                  As Zakir Khan once said: &quot;Tum husn pari, tum
-                  jaane-jahaan, tum sabse haseen, tum sabse jawaan... saundarya,
-                  saabon Megha... not Nirma. And honestly, even that
-                  doesn&apos;t do justice to how amazing you truly are
-                </p>
+                <div className="text-lg md:text-lg text-gray-200 leading-relaxed space-y-4">
+                  <p>
+                    She&apos;s beautiful in the way she moves,<br />
+                    A quiet grace in all she proves.<br />
+                    She&apos;s bold, unshaken, standing tall,<br />
+                    A strength that rises after every fall.
+                  </p>
+                  
+                  <p>
+                    Her eyes reflect a fearless flame,<br />
+                    Her soul, too pure for worldly shame.<br />
+                    She&apos;s determined, chasing dreams untold,<br />
+                    With a fearless heart and a spirit bold.
+                  </p>
+                  
+                  <p>
+                    She&apos;s amazing — a light that won&apos;t fade,<br />
+                    A masterpiece only God has made. ❤️
+                  </p>
+                </div>
               </div>
               {/* Decorative Elements */}
               <div className="flex gap-4 mt-8">

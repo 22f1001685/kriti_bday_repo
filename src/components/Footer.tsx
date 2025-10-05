@@ -9,7 +9,7 @@ const Footer = () => {
         {/* Particle Text Effect for Birthday Message */}
         <div className="mb-8">
           <ParticleTextEffect
-            words={["HAPPY", "BIRTHDAY", "MEGHA"]}
+            words={["HAPPY", "BIRTHDAY", "KRITI"]}
             width={1600}
             height={200}
             className="mx-auto"
@@ -18,11 +18,11 @@ const Footer = () => {
 
         {/* Simple outro message */}
         <p className="text-lg md:text-xl text-gray-300 mb-4">
-          Hope you like this small birthday surprise! Happy Birthday Meghs
+          Hope you like this small birthday surprise! Happy Birthday KRITI
         </p>
 
         <p className="text-sm text-gray-500 mb-2">
-          Made with ❤️ for Megha • {new Date().getFullYear()}
+          Made with ❤️ for KRITI • {new Date().getFullYear()}
         </p>
 
         <p className="text-xs text-gray-600">

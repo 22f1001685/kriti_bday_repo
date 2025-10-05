@@ -1,7 +1,7 @@
-import Megha from "@/components/Hero";
+import Kriti from "@/components/Hero";
 import ImageCarousel from "@/components/HorizontalScrollCarousel";
 import ImageComparison from "@/components/ImageComparison";
-import FriendshipTimeline from "@/components/FriendshipTimeline";
+import KritiSingh from "@/components/Kriti";
 import Footer from "@/components/Footer";
 import Demo from "@/components/WishPage";
 import FinalText from "@/components/FinalText";
@@ -9,10 +9,10 @@ import FinalText from "@/components/FinalText";
 export default function Home() {
   return (
     <main>
-      <Megha />
+      <Kriti />
       <ImageComparison />
       <Demo />
-      <FriendshipTimeline />
+      <KritiSingh />
       <ImageCarousel />
       <FinalText />
       <Footer />

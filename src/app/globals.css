@@ -4,5 +4,15 @@
 @media (min-width: 768px) {
   .hero-bg {
     background-position: center center !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-bg {
+    background-position: center center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
   }
 }

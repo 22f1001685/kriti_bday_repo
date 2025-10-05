@@ -43,7 +43,7 @@ const Hero = () => {
     };
   }, []);
 
-  // Secret method 2: Click on the letter "A" in MEGHA 7 times
+  // Secret method 2: Click on the letter "I" in KRITI 7 times
   const handleSecretLetterClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent triggering parent events
 
@@ -66,40 +66,47 @@ const Hero = () => {
 
   return (
     <div className="sticky top-0 min-h-screen w-full overflow-hidden">
-      {/* Confetti from top center */}
+      {/* Confetti Animation */}
       {showConfetti && (
-        <Confetti
-          width={windowDimensions.width}
-          height={windowDimensions.height}
-          numberOfPieces={300}
-          recycle={false}
-          gravity={0.3}
-          initialVelocityX={0}
-          initialVelocityY={8}
-          confettiSource={{
-            x: 0,
-            y: 0,
-            w: windowDimensions.width,
-            h: 50,
-          }}
-          colors={[
-            "#ff69b4",
-            "#00bfff",
-            "#ffd700",
-            "#ff6347",
-            "#98fb98",
-            "#dda0dd",
-            "#ff1493",
-            "#00ff7f",
-          ]}
-        />
+        <div className="absolute inset-0 z-50 pointer-events-none">
+          <Confetti
+            width={windowDimensions.width}
+            height={windowDimensions.height}
+            numberOfPieces={500}
+            recycle={false}
+            gravity={0.2}
+            initialVelocityX={5}
+            initialVelocityY={10}
+            wind={0.02}
+            friction={0.99}
+            confettiSource={{
+              x: windowDimensions.width * 0.1,
+              y: -10,
+              w: windowDimensions.width * 0.8,
+              h: 10,
+            }}
+            colors={[
+              "#ff69b4", // Hot pink
+              "#00bfff", // Deep sky blue
+              "#ffd700", // Gold
+              "#ff6347", // Tomato
+              "#98fb98", // Pale green
+              "#dda0dd", // Plum
+              "#ff1493", // Deep pink
+              "#00ff7f", // Spring green
+              "#ff4500", // Orange red
+              "#9370db", // Medium purple
+              "#32cd32", // Lime green
+              "#ff69b4", // Hot pink (duplicate for more frequency)
+            ]}
+          />
+        </div>
       )}
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-no-repeat hero-bg"
+        className="absolute inset-0 bg-cover bg-no-repeat hero-bg bg-gray-900"
         style={{
-          backgroundImage: "url('./megha.svg')",
-          backgroundPosition: "15% center",
+          backgroundImage: "url('/with_parents.webp')",
         }}
       ></div>
       {/* Dark overlay for better text contrast */}
@@ -122,17 +129,6 @@ const Hero = () => {
       )}
       {/* Content */}
       <div className="relative z-10 flex min-h-screen">
-        {/* Character Image Overlay - Hidden on mobile, visible on larger screens */}
-        <div className="hidden md:block absolute left-2 top-1/3 sm:left-4 sm:top-1/2 md:left-6 md:top-1/2 lg:left-0 lg:top-1/2 transform -translate-y-1/2 z-20">
-          <Image
-            src="/megha2.svg"
-            alt="Character"
-            width={200}
-            height={200}
-            className="w-32 h-auto sm:w-40 md:w-48 lg:w-auto lg:h-auto"
-          />
-        </div>
-
         {/* Mobile Layout - Bottom positioned, full width */}
         <div className="md:hidden flex flex-col justify-end w-full px-4 pb-15">
           <div className="text-center w-full">
@@ -142,44 +138,54 @@ const Hero = () => {
               Happy birthday
             </span>
             <h1 className="text-8xl font-black text-white leading-none tracking-tight select-none">
-              <span>M</span>
-              <span>E</span>
-              <span>G</span>
-              <span>H</span>
+              <span>K</span>
+              <span>R</span>
+              <span>I</span>
+              <span>T</span>
               <span
                 className="cursor-pointer transition-colors duration-200 relative z-30"
                 onClick={handleSecretLetterClick}
               >
-                A
+                I
               </span>
             </h1>
           </div>
         </div>
 
-        {/* Desktop Layout - Original positioning */}
-        <div className="hidden md:flex md:min-h-screen md:items-center w-full">
-          <div className="w-full">
-            <div className="flex justify-end">
-              <h1 className="text-6xl md:text-[12rem] lg:text-[16rem] font-black text-white leading-none tracking-tight text-right mr-15">
-                <span
-                  className={`${dancingScript.className} block text-3xl md:text-5xl bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent text-center font-normal tracking-wide md:tracking-wider -mb-10 leading-tight py-1`}
-                >
-                  Happy birthday
-                </span>
-                <span className="select-none block">
-                  <span>M</span>
-                  <span>E</span>
-                  <span>G</span>
-                  <span>H</span>
-                  <span
-                    className="cursor-pointer transition-colors duration-200 relative z-30"
-                    onClick={handleSecretLetterClick}
-                  >
-                    A
-                  </span>
-                </span>
-              </h1>
-            </div>
+        {/* Desktop Layout - Repositioned text */}
+        <div className="hidden md:flex md:min-h-screen w-full relative">
+          {/* Happy - Left side, middle */}
+          <div className="absolute left-8 md:left-16 top-1/2 transform -translate-y-1/2">
+            <span
+              className={`${dancingScript.className} text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-normal tracking-wide leading-tight`}
+            >
+              Happy
+            </span>
+          </div>
+
+          {/* Birthday - Right side, middle */}
+          <div className="absolute right-8 md:right-16 top-1/2 transform -translate-y-1/2">
+            <span
+              className={`${dancingScript.className} text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-normal tracking-wide leading-tight`}
+            >
+              Birthday
+            </span>
+          </div>
+
+          {/* KRITI - Bottom center */}
+          <div className="absolute bottom-16 md:bottom-20 left-1/2 transform -translate-x-1/2">
+            <h1 className="text-6xl md:text-[8rem] lg:text-[10rem] font-black text-white leading-none tracking-tight select-none text-center">
+              <span>K</span>
+              <span>R</span>
+              <span>I</span>
+              <span>T</span>
+              <span
+                className="cursor-pointer transition-colors duration-200 relative z-30"
+                onClick={handleSecretLetterClick}
+              >
+                I
+              </span>
+            </h1>
           </div>
         </div>
       </div>

@@ -7,6 +7,7 @@ export default function LetterPage() {
       password={letterConfig.password}
       letterContent={letterConfig.content}
       letterTitle={letterConfig.title}
+      images={letterConfig.images}
     />
   );
 }

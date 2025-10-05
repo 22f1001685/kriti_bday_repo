@@ -4,21 +4,31 @@ import {motion, AnimatePresence} from "framer-motion";
 import {DotPattern} from "@/components/ui/dot-pattern";
 import {cn} from "@/components/libs/utils";
 import {useRouter} from "next/navigation";
+import Image from "next/image";
+
+interface ImageItem {
+  src: string;
+  alt: string;
+  caption: string;
+}
 
 interface PasswordProtectedLetterProps {
   password?: string;
   letterContent?: string;
   letterTitle?: string;
+  images?: ImageItem[];
 }
 
 const PasswordProtectedLetter = ({
-  password = "megha123",
+  password = "rishav",
   letterContent = "Your special letter content goes here...",
   letterTitle = "A Special Letter",
+  images = [],
 }: PasswordProtectedLetterProps) => {
   const [inputPassword, setInputPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [modalImage, setModalImage] = useState<ImageItem | null>(null);
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -89,16 +99,165 @@ const PasswordProtectedLetter = ({
             initial={{y: 50, opacity: 0}}
             animate={{y: 0, opacity: 1}}
             transition={{delay: 0.4, duration: 0.8}}
-            className="max-w-4xl mx-auto"
+            className="max-w-7xl mx-auto"
           >
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 md:p-12 shadow-2xl border border-white/20">
-              <div className="prose prose-lg prose-invert max-w-none">
-                <p className="text-lg md:text-xl leading-relaxed text-gray-100 whitespace-pre-line">
-                  {letterContent}
-                </p>
-              </div>
+            {/* Main Layout with Images on Sides */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              
+              {/* Left Side Images */}
+              {images.length > 0 && (
+                <motion.div
+                  initial={{x: -50, opacity: 0}}
+                  animate={{x: 0, opacity: 1}}
+                  transition={{delay: 0.6, duration: 0.8}}
+                  className="lg:col-span-3 space-y-6"
+                >
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent text-center mb-4 leading-tight py-1">
+                    Beautiful Memories 💕
+                  </h3>
+                  
+                  {images.slice(0, 4).map((image, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{scale: 0.8, opacity: 0}}
+                      animate={{scale: 1, opacity: 1}}
+                      transition={{delay: 0.8 + index * 0.2}}
+                      className="bg-white/10 backdrop-blur-lg rounded-xl p-3 shadow-lg border border-white/20 hover:shadow-2xl transition-all duration-300 cursor-pointer group hover:scale-105"
+                      onClick={() => setModalImage(image)}
+                    >
+                      <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-2">
+                        <Image
+                          src={image.src}
+                          alt={image.alt}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="bg-white/30 backdrop-blur-sm rounded-full p-2">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-200 text-center leading-relaxed px-1">
+                        {image.caption}
+                      </p>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+
+              {/* Center Letter Content */}
+              <motion.div
+                initial={{y: 30, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                transition={{delay: 0.5, duration: 0.8}}
+                className="lg:col-span-6"
+              >
+                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 md:p-8 shadow-2xl border border-white/20">
+                  <div className="prose prose-lg prose-invert max-w-none">
+                    <p className="text-base md:text-lg leading-relaxed text-gray-100 whitespace-pre-line">
+                      {letterContent}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Right Side Images */}
+              {images.length > 4 && (
+                <motion.div
+                  initial={{x: 50, opacity: 0}}
+                  animate={{x: 0, opacity: 1}}
+                  transition={{delay: 0.6, duration: 0.8}}
+                  className="lg:col-span-3 space-y-6"
+                >
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-center mb-4 leading-tight py-1">
+                    Sweet Moments ✨
+                  </h3>
+                  
+                  {images.slice(4, 8).map((image, index) => (
+                    <motion.div
+                      key={index + 4}
+                      initial={{scale: 0.8, opacity: 0}}
+                      animate={{scale: 1, opacity: 1}}
+                      transition={{delay: 1.0 + index * 0.2}}
+                      className="bg-white/10 backdrop-blur-lg rounded-xl p-3 shadow-lg border border-white/20 hover:shadow-2xl transition-all duration-300 cursor-pointer group hover:scale-105"
+                      onClick={() => setModalImage(image)}
+                    >
+                      <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-2">
+                        <Image
+                          src={image.src}
+                          alt={image.alt}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="bg-white/30 backdrop-blur-sm rounded-full p-2">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-200 text-center leading-relaxed px-1">
+                        {image.caption}
+                      </p>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
             </div>
           </motion.div>
+
+          {/* Fullscreen Image Modal */}
+          <AnimatePresence>
+            {modalImage && (
+              <motion.div
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                exit={{opacity: 0}}
+                className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+                onClick={() => setModalImage(null)}
+              >
+                <motion.div
+                  initial={{scale: 0.8, opacity: 0}}
+                  animate={{scale: 1, opacity: 1}}
+                  exit={{scale: 0.8, opacity: 0}}
+                  transition={{type: "spring", damping: 25, stiffness: 300}}
+                  className="relative max-w-4xl max-h-[90vh] bg-white rounded-lg overflow-hidden shadow-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* Close button */}
+                  <button
+                    onClick={() => setModalImage(null)}
+                    className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors duration-200"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                  
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src={modalImage.src}
+                      alt={modalImage.alt}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  
+                  <div className="p-6 bg-gradient-to-t from-gray-100 to-white">
+                    <p className="text-gray-800 text-center text-lg font-medium">
+                      {modalImage.caption}
+                    </p>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </motion.div>
     );
