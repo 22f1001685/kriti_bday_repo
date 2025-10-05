@@ -1,5 +1,5 @@
 export const letterConfig = {
-  password: "kritirishavsingh2921",
+  password: "kritirishavsingh",
   title: "Hidden Letter",
 
   // Add images here - put image files in the public folder first
